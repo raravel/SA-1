@@ -1,0 +1,30 @@
+@import url(keyframes.css);
+
+@mixin animation-mixin($arr, $duration) {
+    &[data-sa="#{$arr}"] {
+        animation-fill-mode: forwards;
+        animation-duration: #{$duration};
+        opacity: 0;
+        transition: opacity .5s;
+
+        &.show {
+            opacity: 1;
+            animation-name: sa-#{$arr};
+        }
+    }
+}
+[data-sa] {
+    $name: 'scale', 'from-left', 'from-right', 'from-top', 'from-bottom', 'flip';
+    
+    @each $item in $name {
+        @include animation-mixin($item, 1000ms);
+    }
+
+    @each $item in $name {// has duration
+        @for $i from 1 through 20{
+            &[data-sa-duration= "#{$i*500}" ] {
+                @include animation-mixin($item, #{$i*500}ms);            
+            }
+        }
+    }
+}
